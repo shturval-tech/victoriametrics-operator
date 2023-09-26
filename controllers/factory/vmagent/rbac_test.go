@@ -9,11 +9,11 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/VictoriaMetrics/operator/controllers/factory/k8stools"
+	"github.com/shturval-tech/victoriametrics-operator/controllers/factory/k8stools"
 
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1beta12 "github.com/VictoriaMetrics/operator/api/v1beta1"
+	v1beta12 "github.com/shturval-tech/victoriametrics-operator/api/v1beta1"
 )
 
 func TestCreateVMAgentClusterAccess(t *testing.T) {

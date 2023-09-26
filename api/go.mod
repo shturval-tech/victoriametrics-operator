@@ -1,4 +1,4 @@
-module github.com/VictoriaMetrics/operator/api
+module github.com/shturval-tech/victoriametrics-operator/api
 
 go 1.20
 
@@ -6,12 +6,12 @@ require (
 	github.com/VictoriaMetrics/VictoriaMetrics v1.91.3
 	github.com/stretchr/testify v1.8.2
 	gopkg.in/yaml.v2 v2.4.0
-	k8s.io/api v0.25.6
-	k8s.io/apiextensions-apiserver v0.23.1
-	k8s.io/apimachinery v0.25.6
-	k8s.io/client-go v0.25.6
-	k8s.io/utils v0.0.0-20220728103510-ee6ede2d64ed
-	sigs.k8s.io/controller-runtime v0.11.0
+	k8s.io/api v0.27.6
+	k8s.io/apiextensions-apiserver v0.27.6
+	k8s.io/apimachinery v0.27.6
+	k8s.io/client-go v0.27.6
+	k8s.io/utils v0.0.0-20230406110748-d93618cff8a2
+	sigs.k8s.io/controller-runtime v0.15.1
 )
 
 require (
@@ -42,7 +42,6 @@ require (
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.16.5 // indirect
-	github.com/kr/pretty v0.3.1 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect

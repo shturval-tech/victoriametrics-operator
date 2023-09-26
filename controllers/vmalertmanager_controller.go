@@ -18,20 +18,21 @@ package controllers
 
 import (
 	"context"
-	"github.com/VictoriaMetrics/operator/controllers/factory/finalize"
-	"sigs.k8s.io/controller-runtime/pkg/builder"
 	"sync"
 
-	"github.com/VictoriaMetrics/operator/controllers/factory"
-	"github.com/VictoriaMetrics/operator/internal/config"
+	"github.com/shturval-tech/victoriametrics-operator/controllers/factory/finalize"
+	"sigs.k8s.io/controller-runtime/pkg/builder"
+
 	"github.com/go-logr/logr"
+	"github.com/shturval-tech/victoriametrics-operator/controllers/factory"
+	"github.com/shturval-tech/victoriametrics-operator/internal/config"
 	appsv1 "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	victoriametricsv1beta1 "github.com/VictoriaMetrics/operator/api/v1beta1"
+	victoriametricsv1beta1 "github.com/shturval-tech/victoriametrics-operator/api/v1beta1"
 )
 
 var alertmanagerLock sync.Mutex

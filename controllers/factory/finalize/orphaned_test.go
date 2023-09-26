@@ -8,8 +8,8 @@ import (
 	"k8s.io/apimachinery/pkg/labels"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	victoriametricsv1beta1 "github.com/VictoriaMetrics/operator/api/v1beta1"
-	"github.com/VictoriaMetrics/operator/controllers/factory/k8stools"
+	victoriametricsv1beta1 "github.com/shturval-tech/victoriametrics-operator/api/v1beta1"
+	"github.com/shturval-tech/victoriametrics-operator/controllers/factory/k8stools"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"

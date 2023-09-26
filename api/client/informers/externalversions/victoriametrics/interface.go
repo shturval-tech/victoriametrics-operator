@@ -18,8 +18,8 @@ limitations under the License.
 package victoriametrics
 
 import (
-	internalinterfaces "github.com/VictoriaMetrics/operator/api/client/informers/externalversions/internalinterfaces"
-	v1beta1 "github.com/VictoriaMetrics/operator/api/client/informers/externalversions/victoriametrics/v1beta1"
+	internalinterfaces "github.com/shturval-tech/victoriametrics-operator/api/client/informers/externalversions/internalinterfaces"
+	v1beta1 "github.com/shturval-tech/victoriametrics-operator/api/client/informers/externalversions/victoriametrics/v1beta1"
 )
 
 // Interface provides access to each of this group's versions.

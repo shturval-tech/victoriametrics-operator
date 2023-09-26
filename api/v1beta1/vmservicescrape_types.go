@@ -345,13 +345,13 @@ type RelabelConfig struct {
 	// UnderScoreSourceLabels - additional form of source labels source_labels
 	// for compatibility with original relabel config.
 	// if set  both sourceLabels and source_labels, sourceLabels has priority.
-	// for details https://github.com/VictoriaMetrics/operator/issues/131
+	// for details https://github.com/shturval-tech/victoriametrics-operator/issues/131
 	// +optional
 	UnderScoreSourceLabels []string `json:"source_labels,omitempty" yaml:"source_labels,omitempty"`
 	// UnderScoreTargetLabel - additional form of target label - target_label
 	// for compatibility with original relabel config.
 	// if set  both targetLabel and target_label, targetLabel has priority.
-	// for details https://github.com/VictoriaMetrics/operator/issues/131
+	// for details https://github.com/shturval-tech/victoriametrics-operator/issues/131
 	// +optional
 	UnderScoreTargetLabel string `json:"target_label,omitempty" yaml:"target_label,omitempty"`
 

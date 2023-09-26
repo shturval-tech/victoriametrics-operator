@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/VictoriaMetrics/operator/controllers/factory/k8stools"
+	"github.com/shturval-tech/victoriametrics-operator/controllers/factory/k8stools"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"sigs.k8s.io/controller-runtime/pkg/client"

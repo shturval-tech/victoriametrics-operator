@@ -18,14 +18,15 @@ package controllers
 
 import (
 	"context"
-	"github.com/VictoriaMetrics/operator/controllers/factory"
-	"github.com/VictoriaMetrics/operator/internal/config"
+
 	"github.com/go-logr/logr"
+	"github.com/shturval-tech/victoriametrics-operator/controllers/factory"
+	"github.com/shturval-tech/victoriametrics-operator/internal/config"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	operatorv1beta1 "github.com/VictoriaMetrics/operator/api/v1beta1"
+	operatorv1beta1 "github.com/shturval-tech/victoriametrics-operator/api/v1beta1"
 )
 
 // VMNodeScrapeReconciler reconciles a VMNodeScrape object

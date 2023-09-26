@@ -5,10 +5,10 @@ import (
 	"os"
 	"testing"
 
-	"github.com/VictoriaMetrics/operator/e2e/suite"
-	"github.com/VictoriaMetrics/operator/internal/config"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"github.com/shturval-tech/victoriametrics-operator/e2e/suite"
+	"github.com/shturval-tech/victoriametrics-operator/internal/config"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

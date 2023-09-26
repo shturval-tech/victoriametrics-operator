@@ -6,9 +6,9 @@ import (
 	"strings"
 	"time"
 
-	victoriametricsv1beta1 "github.com/VictoriaMetrics/operator/api/v1beta1"
-	"github.com/VictoriaMetrics/operator/internal/config"
 	"github.com/go-test/deep"
+	victoriametricsv1beta1 "github.com/shturval-tech/victoriametrics-operator/api/v1beta1"
+	"github.com/shturval-tech/victoriametrics-operator/internal/config"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/api/storage/v1"
@@ -75,7 +75,7 @@ func wasCreatedSTS(ctx context.Context, rclient client.Client, newSTS, existingS
 		// for some reason, kubernetes doesn't update sts status after its re-creation
 		// so, manually set currentVersion to the version of previous sts.
 		// updateRevision will be fetched from first re-created pod
-		// https://github.com/VictoriaMetrics/operator/issues/344
+		// https://github.com/shturval-tech/victoriametrics-operator/issues/344
 		newSTS.Status.CurrentRevision = existingSTS.Status.CurrentRevision
 		if err := rclient.Status().Update(ctx, newSTS); err != nil {
 			return fmt.Errorf("cannot update re-created statefulset status version: %w", err)

@@ -21,10 +21,10 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/VictoriaMetrics/operator/controllers/factory"
-	"github.com/VictoriaMetrics/operator/controllers/factory/finalize"
-	"github.com/VictoriaMetrics/operator/internal/config"
 	"github.com/go-logr/logr"
+	"github.com/shturval-tech/victoriametrics-operator/controllers/factory"
+	"github.com/shturval-tech/victoriametrics-operator/controllers/factory/finalize"
+	"github.com/shturval-tech/victoriametrics-operator/internal/config"
 	appsv1 "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -32,7 +32,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/builder"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	operatorv1beta1 "github.com/VictoriaMetrics/operator/api/v1beta1"
+	operatorv1beta1 "github.com/shturval-tech/victoriametrics-operator/api/v1beta1"
 )
 
 var vmAuthSyncMU = sync.Mutex{}

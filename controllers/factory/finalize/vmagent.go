@@ -3,8 +3,8 @@ package finalize
 import (
 	"context"
 
-	victoriametricsv1beta1 "github.com/VictoriaMetrics/operator/api/v1beta1"
-	"github.com/VictoriaMetrics/operator/internal/config"
+	victoriametricsv1beta1 "github.com/shturval-tech/victoriametrics-operator/api/v1beta1"
+	"github.com/shturval-tech/victoriametrics-operator/internal/config"
 	appsv1 "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"
 	v12 "k8s.io/api/rbac/v1"

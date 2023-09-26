@@ -3,14 +3,15 @@ package controllers
 import (
 	"context"
 	"fmt"
-	alpha1 "github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1alpha1"
 	"time"
 
-	"github.com/VictoriaMetrics/operator/api/v1beta1"
-	"github.com/VictoriaMetrics/operator/controllers/converter"
-	"github.com/VictoriaMetrics/operator/internal/config"
+	alpha1 "github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1alpha1"
+
 	v1 "github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1"
 	"github.com/prometheus-operator/prometheus-operator/pkg/client/versioned"
+	"github.com/shturval-tech/victoriametrics-operator/api/v1beta1"
+	"github.com/shturval-tech/victoriametrics-operator/controllers/converter"
+	"github.com/shturval-tech/victoriametrics-operator/internal/config"
 	"golang.org/x/sync/errgroup"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"

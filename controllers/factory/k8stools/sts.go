@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	victoriametricsv1beta1 "github.com/VictoriaMetrics/operator/api/v1beta1"
-	"github.com/VictoriaMetrics/operator/internal/config"
+	victoriametricsv1beta1 "github.com/shturval-tech/victoriametrics-operator/api/v1beta1"
+	"github.com/shturval-tech/victoriametrics-operator/internal/config"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -90,7 +90,7 @@ func HandleSTSUpdate(ctx context.Context, rclient client.Client, cr STSOptions, 
 // and compare pods revision label with sts revision
 // if it doesnt match - updated is needed
 // there is corner case, when statefulset was removed
-// See details at https://github.com/VictoriaMetrics/operator/issues/344
+// See details at https://github.com/shturval-tech/victoriametrics-operator/issues/344
 func performRollingUpdateOnSts(ctx context.Context, wasRecreated bool, rclient client.Client, stsName string, ns string, podLabels map[string]string, c *config.BaseOperatorConf) error {
 	time.Sleep(time.Second * 2)
 	sts := &appsv1.StatefulSet{}
@@ -201,7 +201,7 @@ func performRollingUpdateOnSts(ctx context.Context, wasRecreated bool, rclient c
 			// its special hack
 			// we check first pod revision label after re-creation
 			// it must contain valid statefulset revision
-			// See more at https://github.com/VictoriaMetrics/operator/issues/344
+			// See more at https://github.com/shturval-tech/victoriametrics-operator/issues/344
 			// It's needed for correct update restore process, when it was interrupted for some reason
 			// we have to check Current and Update revisions.
 			updatedPodRev := pod.Labels[podRevisionLabel]

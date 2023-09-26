@@ -7,10 +7,10 @@ import (
 
 	"k8s.io/apimachinery/pkg/api/errors"
 
-	operator "github.com/VictoriaMetrics/operator/api/v1beta1"
-	"github.com/VictoriaMetrics/operator/controllers/factory"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	operator "github.com/shturval-tech/victoriametrics-operator/api/v1beta1"
+	"github.com/shturval-tech/victoriametrics-operator/controllers/factory"
 	"golang.org/x/net/context"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

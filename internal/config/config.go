@@ -269,7 +269,7 @@ type BaseOperatorConf struct {
 	// 3. Capabilities:
 	//      drop:
 	//        - all
-	// turn off `EnableStrictSecurity` by default, see https://github.com/VictoriaMetrics/operator/issues/749 for details
+	// turn off `EnableStrictSecurity` by default, see https://github.com/shturval-tech/victoriametrics-operator/issues/749 for details
 	EnableStrictSecurity bool `default:"false"`
 }
 

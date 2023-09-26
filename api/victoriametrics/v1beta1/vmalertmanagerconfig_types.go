@@ -393,7 +393,7 @@ type EmailConfig struct {
 // EmailConfigHeaders is a map of email headers.
 type EmailConfigHeaders map[string]string
 
-// UnmarshalYAML https://github.com/VictoriaMetrics/operator/issues/609
+// UnmarshalYAML https://github.com/shturval-tech/victoriametrics-operator/issues/609
 func (r *EmailConfigHeaders) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	var raw any
 	if err := unmarshal(&raw); err != nil {

@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/VictoriaMetrics/operator/api/v1beta1"
-	"github.com/VictoriaMetrics/operator/controllers/factory/k8stools"
+	"github.com/shturval-tech/victoriametrics-operator/api/v1beta1"
+	"github.com/shturval-tech/victoriametrics-operator/controllers/factory/k8stools"
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/yaml.v2"
 	v1 "k8s.io/api/core/v1"

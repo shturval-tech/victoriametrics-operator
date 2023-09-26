@@ -20,9 +20,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/VictoriaMetrics/operator/controllers/factory"
-	"github.com/VictoriaMetrics/operator/internal/config"
 	"github.com/go-logr/logr"
+	"github.com/shturval-tech/victoriametrics-operator/controllers/factory"
+	"github.com/shturval-tech/victoriametrics-operator/internal/config"
 
 	appsv1 "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"
@@ -31,8 +31,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/builder"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	victoriametricsv1beta1 "github.com/VictoriaMetrics/operator/api/v1beta1"
-	"github.com/VictoriaMetrics/operator/controllers/factory/finalize"
+	victoriametricsv1beta1 "github.com/shturval-tech/victoriametrics-operator/api/v1beta1"
+	"github.com/shturval-tech/victoriametrics-operator/controllers/factory/finalize"
 )
 
 // VMSingleReconciler reconciles a VMSingle object
