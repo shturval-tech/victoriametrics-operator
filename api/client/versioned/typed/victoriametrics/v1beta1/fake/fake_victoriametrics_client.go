@@ -18,7 +18,7 @@ limitations under the License.
 package fake
 
 import (
-	v1beta1 "github.com/VictoriaMetrics/operator/api/client/versioned/typed/victoriametrics/v1beta1"
+	v1beta1 "github.com/shturval-tech/victoriametrics-operator/api/client/versioned/typed/victoriametrics/v1beta1"
 	rest "k8s.io/client-go/rest"
 	testing "k8s.io/client-go/testing"
 )

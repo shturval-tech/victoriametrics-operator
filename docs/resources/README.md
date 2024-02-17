@@ -121,7 +121,7 @@ Page for every custom resource contains examples section:
 - [VMUser examples](./vmuser.md#examples)
 
 In addition, you can find examples of the custom resources for VIctoriMetrics operator in 
-the **[examples directory](https://github.com/VictoriaMetrics/operator/tree/master/config/examples) of operator repository**.
+the **[examples directory](https://github.com/shturval-tech/victoriametrics-operator/tree/master/config/examples) of operator repository**.
 
 ## Managing versions of VM
 
@@ -216,7 +216,7 @@ For `Secret` it doesn't work. And operator offers its implementation for side-ca
   value: "true"
 ```
 
-If it's defined, operator uses own [config-reloader](https://github.com/VictoriaMetrics/operator/tree/master/internal/config-reloader)
+If it's defined, operator uses own [config-reloader](https://github.com/shturval-tech/victoriametrics-operator/tree/master/internal/config-reloader)
 instead of [prometheus-config-reload](https://github.com/prometheus-operator/prometheus-operator/tree/main/cmd/prometheus-config-reloader).
 
 It watches corresponding `Secret` for changes with Kubernetes API watch call and writes content into emptyDir.

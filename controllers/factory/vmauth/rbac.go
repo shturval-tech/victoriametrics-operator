@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	v1beta12 "github.com/VictoriaMetrics/operator/api/v1beta1"
+	v1beta12 "github.com/shturval-tech/victoriametrics-operator/api/v1beta1"
 	v1 "k8s.io/api/rbac/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

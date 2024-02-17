@@ -560,7 +560,7 @@ Possible configuration options for backup crd can be found at [link](../api.md#v
 
 **Using VMBackupmanager for restoring backups** in Kubernetes environment is described [here](https://docs.victoriametrics.com/vmbackupmanager.html#how-to-restore-in-kubernetes).
 
-Also see VMCLuster example spec [here](https://github.com/VictoriaMetrics/operator/blob/master/config/examples/vmcluster_with_backuper.yaml).
+Also see VMCLuster example spec [here](https://github.com/shturval-tech/victoriametrics-operator/blob/master/config/examples/vmcluster_with_backuper.yaml).
 
 ## Examples
 

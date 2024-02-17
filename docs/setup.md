@@ -30,14 +30,14 @@ installing VictoriaMetrics operator with helm-chart.
 ## Installing by Manifest
 
 Obtain release from releases page:
-[https://github.com/VictoriaMetrics/operator/releases](https://github.com/VictoriaMetrics/operator/releases)
+[https://github.com/shturval-tech/victoriametrics-operator/releases](https://github.com/shturval-tech/victoriametrics-operator/releases)
 
 We suggest use the latest release.
 
 ```console
-# Get latest release version from https://github.com/VictoriaMetrics/operator/releases/latest
-export VM_VERSION=`basename $(curl -fs -o/dev/null -w %{redirect_url} https://github.com/VictoriaMetrics/operator/releases/latest)`
-wget https://github.com/VictoriaMetrics/operator/releases/download/$VM_VERSION/bundle_crd.zip
+# Get latest release version from https://github.com/shturval-tech/victoriametrics-operator/releases/latest
+export VM_VERSION=`basename $(curl -fs -o/dev/null -w %{redirect_url} https://github.com/shturval-tech/victoriametrics-operator/releases/latest)`
+wget https://github.com/shturval-tech/victoriametrics-operator/releases/download/$VM_VERSION/bundle_crd.zip
 unzip  bundle_crd.zip
 ```
 
@@ -76,14 +76,14 @@ kubectl get pods -n monitoring-system
 You can install operator using [Kustomize](https://kustomize.io/) by pointing to the remote kustomization file.
 
 ```console
-# Get latest release version from https://github.com/VictoriaMetrics/operator/releases/latest
-export VM_VERSION=`basename $(curl -fs -o/dev/null -w %{redirect_url} https://github.com/VictoriaMetrics/operator/releases/latest)`
+# Get latest release version from https://github.com/shturval-tech/victoriametrics-operator/releases/latest
+export VM_VERSION=`basename $(curl -fs -o/dev/null -w %{redirect_url} https://github.com/shturval-tech/victoriametrics-operator/releases/latest)`
 
 cat << EOF > kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- github.com/VictoriaMetrics/operator/config/default?ref=${VM_VERSION}
+- github.com/shturval-tech/victoriametrics-operator/config/default?ref=${VM_VERSION}
 
 images:
 - name: victoriametrics/operator

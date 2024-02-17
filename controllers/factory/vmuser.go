@@ -10,8 +10,8 @@ import (
 	"sort"
 	"strings"
 
-	victoriametricsv1beta1 "github.com/VictoriaMetrics/operator/api/v1beta1"
-	"github.com/VictoriaMetrics/operator/internal/config"
+	victoriametricsv1beta1 "github.com/shturval-tech/victoriametrics-operator/api/v1beta1"
+	"github.com/shturval-tech/victoriametrics-operator/internal/config"
 	"gopkg.in/yaml.v2"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -564,7 +564,7 @@ func genUrlMaps(userName string, refs []victoriametricsv1beta1.TargetRef, result
 		switch len(paths) {
 		case 0:
 			// special case for
-			// https://github.com/VictoriaMetrics/operator/issues/379
+			// https://github.com/shturval-tech/victoriametrics-operator/issues/379
 			switch {
 			case len(refs) > 1 && ref.CRD != nil && ref.CRD.Kind == "VMCluster/vminsert":
 				paths = addVMInsertPaths(paths)

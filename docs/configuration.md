@@ -100,7 +100,7 @@ victoria-metrics-operator:
     # It should reduce  vmagent and vmauth config sync-time and make it predictable.
     useCustomConfigReloader: false
 
-  # -- extra settings for the operator deployment. full list Ref: [https://github.com/VictoriaMetrics/operator/blob/master/vars.md](https://github.com/VictoriaMetrics/operator/blob/master/vars.md)
+  # -- extra settings for the operator deployment. full list Ref: [https://github.com/shturval-tech/victoriametrics-operator/blob/master/vars.md](https://github.com/shturval-tech/victoriametrics-operator/blob/master/vars.md)
   env:
     # -- default version for vmsingle
     - name: VM_VMSINGLEDEFAULT_VERSION
@@ -167,7 +167,7 @@ operator:
   # It should reduce  vmagent and vmauth config sync-time and make it predictable.
   useCustomConfigReloader: false
 
-# -- extra settings for the operator deployment. full list Ref: [https://github.com/VictoriaMetrics/operator/blob/master/vars.md](https://github.com/VictoriaMetrics/operator/blob/master/vars.md)
+# -- extra settings for the operator deployment. full list Ref: [https://github.com/shturval-tech/victoriametrics-operator/blob/master/vars.md](https://github.com/shturval-tech/victoriametrics-operator/blob/master/vars.md)
 env:
   # -- default version for vmsingle
   - name: VM_VMSINGLEDEFAULT_VERSION
@@ -214,7 +214,7 @@ If you want to override this behavior, specify the namespace:
 The operator supports only single namespace for watching.
 
 You can find example of RBAC manifests for single-namespace mode in 
-[this file](https://github.com/VictoriaMetrics/operator/blob/master/config/examples/operator_rbac_for_single_namespace.yaml).
+[this file](https://github.com/shturval-tech/victoriametrics-operator/blob/master/config/examples/operator_rbac_for_single_namespace.yaml).
 
 ## Monitoring of cluster components
 

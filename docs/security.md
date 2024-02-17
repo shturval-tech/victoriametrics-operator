@@ -16,19 +16,19 @@ aliases:
 
 ### Roles
 
-To run in a cluster the operator needs certain permissions, you can see them in [this directory](https://github.com/VictoriaMetrics/operator/tree/master/config/rbac):
+To run in a cluster the operator needs certain permissions, you can see them in [this directory](https://github.com/shturval-tech/victoriametrics-operator/tree/master/config/rbac):
 
-- [`role.yaml` file](https://github.com/VictoriaMetrics/operator/blob/master/config/rbac/role.yaml) - basic set of cluster roles for launching an operator.
-- [`leader_election_role.yaml` file](https://github.com/VictoriaMetrics/operator/blob/master/config/rbac/leader_election_role.yaml) - set of roles with permissions to do leader election (is necessary to run the operator in several replicas for high availability).
+- [`role.yaml` file](https://github.com/shturval-tech/victoriametrics-operator/blob/master/config/rbac/role.yaml) - basic set of cluster roles for launching an operator.
+- [`leader_election_role.yaml` file](https://github.com/shturval-tech/victoriametrics-operator/blob/master/config/rbac/leader_election_role.yaml) - set of roles with permissions to do leader election (is necessary to run the operator in several replicas for high availability).
 
 Also, you can use single-namespace mode with minimal permissions, see [this section](./configuration.md#namespaced-mode) for details.
 
-Also in [the same directory](https://github.com/VictoriaMetrics/operator/tree/master/config/rbac) are files with a set of separate permissions to view or edit [operator resources](./resources/README.md) to organize fine-grained access:
+Also in [the same directory](https://github.com/shturval-tech/victoriametrics-operator/tree/master/config/rbac) are files with a set of separate permissions to view or edit [operator resources](./resources/README.md) to organize fine-grained access:
 
 - file `<RESOURCE_NAME>_viewer_role.yaml` - permissions for viewing (`get`, `list` and `watch`) some resource of vmoperator.
 - file `<RESOURCE_NAME>_editor_role.yaml` - permissions for editing (`create`, `delete`, `patch`, `update` and `deletecollection`) some resource of vmoperator (also includes viewing permissions).
 
-For instance, [`vmalert_editor_role.yaml` file](https://github.com/VictoriaMetrics/operator/blob/master/config/rbac/vmalert_editor_role.yaml) contain permission
+For instance, [`vmalert_editor_role.yaml` file](https://github.com/shturval-tech/victoriametrics-operator/blob/master/config/rbac/vmalert_editor_role.yaml) contain permission
 for editing [`vmagent` custom resources](./resources/vmagent.md).
 
 <!-- TODO: service accounts / role bindings? -->

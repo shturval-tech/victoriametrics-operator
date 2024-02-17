@@ -22,9 +22,9 @@ import (
 	sync "sync"
 	time "time"
 
-	internalinterfaces "github.com/VictoriaMetrics/operator/api/client/informers/externalversions/internalinterfaces"
-	victoriametrics "github.com/VictoriaMetrics/operator/api/client/informers/externalversions/victoriametrics"
-	versioned "github.com/VictoriaMetrics/operator/api/client/versioned"
+	internalinterfaces "github.com/shturval-tech/victoriametrics-operator/api/client/informers/externalversions/internalinterfaces"
+	victoriametrics "github.com/shturval-tech/victoriametrics-operator/api/client/informers/externalversions/victoriametrics"
+	versioned "github.com/shturval-tech/victoriametrics-operator/api/client/versioned"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"

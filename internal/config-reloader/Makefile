@@ -8,7 +8,7 @@ cr-docker-build-arch:
 			.
 
 cr-package-arch:
-	CGO_ENABLED=0 GOOS=${GOOS} GOARCH=${GOARCH} $(GOBUILD) -o bin/config-reloader-$(GOARCH) github.com/VictoriaMetrics/operator/internal/config-reloader/
+	CGO_ENABLED=0 GOOS=${GOOS} GOARCH=${GOARCH} $(GOBUILD) -o bin/config-reloader-$(GOARCH) github.com/shturval-tech/victoriametrics-operator/internal/config-reloader/
 
 
 cr-build-operator-crosscompile:

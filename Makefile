@@ -416,26 +416,26 @@ generate-client: get-client-generator
 	@echo ">> generating with client-gen"
 	client-gen --clientset-name versioned \
 	 --input-base "" \
-	 --input "github.com/VictoriaMetrics/operator/api/victoriametrics/v1beta1" \
+	 --input "github.com/shturval-tech/victoriametrics-operator/api/victoriametrics/v1beta1" \
      --output-base "" \
-     --output-package "github.com/VictoriaMetrics/operator/api/client" \
+     --output-package "github.com/shturval-tech/victoriametrics-operator/api/client" \
      --go-header-file hack/boilerplate.go.txt	
 	@echo ">> generating with lister-gen"
 	lister-gen \
-	 --input-dirs "github.com/VictoriaMetrics/operator/api/victoriametrics/v1beta1" \
+	 --input-dirs "github.com/shturval-tech/victoriametrics-operator/api/victoriametrics/v1beta1" \
 	 --output-base "" \
-	 --output-package "github.com/VictoriaMetrics/operator/api/client/listers" \
+	 --output-package "github.com/shturval-tech/victoriametrics-operator/api/client/listers" \
 	 --go-header-file hack/boilerplate.go.txt
 	@echo ">> generating with informer-gen"	
 	informer-gen \
-	 --versioned-clientset-package "github.com/VictoriaMetrics/operator/api/client/versioned" \
-	 --listers-package "github.com/VictoriaMetrics/operator/api/client/listers" \
-	 --input-dirs "github.com/VictoriaMetrics/operator/api/victoriametrics/v1beta1" \
+	 --versioned-clientset-package "github.com/shturval-tech/victoriametrics-operator/api/client/versioned" \
+	 --listers-package "github.com/shturval-tech/victoriametrics-operator/api/client/listers" \
+	 --input-dirs "github.com/shturval-tech/victoriametrics-operator/api/victoriametrics/v1beta1" \
 	 --output-base "" \
-	 --output-package "github.com/VictoriaMetrics/operator/api/client/informers" \
+	 --output-package "github.com/shturval-tech/victoriametrics-operator/api/client/informers" \
 	 --go-header-file hack/boilerplate.go.txt	
 
-	mv github.com/VictoriaMetrics/operator/api/client api/
+	mv github.com/shturval-tech/victoriametrics-operator/api/client api/
 	rm -rf github.com/
 
 include internal/config-reloader/Makefile

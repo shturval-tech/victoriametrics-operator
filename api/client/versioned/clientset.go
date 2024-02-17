@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"net/http"
 
-	victoriametricsv1beta1 "github.com/VictoriaMetrics/operator/api/client/versioned/typed/victoriametrics/v1beta1"
+	victoriametricsv1beta1 "github.com/shturval-tech/victoriametrics-operator/api/client/versioned/typed/victoriametrics/v1beta1"
 	discovery "k8s.io/client-go/discovery"
 	rest "k8s.io/client-go/rest"
 	flowcontrol "k8s.io/client-go/util/flowcontrol"

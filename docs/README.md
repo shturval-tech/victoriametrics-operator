@@ -88,4 +88,4 @@ and feel free to can ask them:
 - [VictoriaMetrics Telegram](https://t.me/VictoriaMetrics_en)
 
 If you have any suggestions or find a bug, please create an issue
-on [GitHub](https://github.com/VictoriaMetrics/operator/issues/new).
+on [GitHub](https://github.com/shturval-tech/victoriametrics-operator/issues/new).

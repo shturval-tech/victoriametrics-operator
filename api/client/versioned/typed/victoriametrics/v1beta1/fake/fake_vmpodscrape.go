@@ -20,7 +20,7 @@ package fake
 import (
 	"context"
 
-	v1beta1 "github.com/VictoriaMetrics/operator/api/victoriametrics/v1beta1"
+	v1beta1 "github.com/shturval-tech/victoriametrics-operator/api/victoriametrics/v1beta1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"

@@ -825,7 +825,7 @@ spec:
                       description: UnderScoreSourceLabels - additional form of source
                         labels source_labels for compatibility with original relabel
                         config. if set  both sourceLabels and source_labels, sourceLabels
-                        has priority. for details https://github.com/VictoriaMetrics/operator/issues/131
+                        has priority. for details https://github.com/shturval-tech/victoriametrics-operator/issues/131
                       items:
                         type: string
                       type: array
@@ -841,7 +841,7 @@ spec:
                       description: UnderScoreTargetLabel - additional form of target
                         label - target_label for compatibility with original relabel
                         config. if set  both targetLabel and target_label, targetLabel
-                        has priority. for details https://github.com/VictoriaMetrics/operator/issues/131
+                        has priority. for details https://github.com/shturval-tech/victoriametrics-operator/issues/131
                       type: string
                     targetLabel:
                       description: Label to which the resulting value is written in
@@ -1040,7 +1040,7 @@ spec:
                       description: UnderScoreSourceLabels - additional form of source
                         labels source_labels for compatibility with original relabel
                         config. if set  both sourceLabels and source_labels, sourceLabels
-                        has priority. for details https://github.com/VictoriaMetrics/operator/issues/131
+                        has priority. for details https://github.com/shturval-tech/victoriametrics-operator/issues/131
                       items:
                         type: string
                       type: array
@@ -1056,7 +1056,7 @@ spec:
                       description: UnderScoreTargetLabel - additional form of target
                         label - target_label for compatibility with original relabel
                         config. if set  both targetLabel and target_label, targetLabel
-                        has priority. for details https://github.com/VictoriaMetrics/operator/issues/131
+                        has priority. for details https://github.com/shturval-tech/victoriametrics-operator/issues/131
                       type: string
                     targetLabel:
                       description: Label to which the resulting value is written in
@@ -1285,7 +1285,7 @@ spec:
                       description: UnderScoreSourceLabels - additional form of source
                         labels source_labels for compatibility with original relabel
                         config. if set  both sourceLabels and source_labels, sourceLabels
-                        has priority. for details https://github.com/VictoriaMetrics/operator/issues/131
+                        has priority. for details https://github.com/shturval-tech/victoriametrics-operator/issues/131
                       items:
                         type: string
                       type: array
@@ -1301,7 +1301,7 @@ spec:
                       description: UnderScoreTargetLabel - additional form of target
                         label - target_label for compatibility with original relabel
                         config. if set  both targetLabel and target_label, targetLabel
-                        has priority. for details https://github.com/VictoriaMetrics/operator/issues/131
+                        has priority. for details https://github.com/shturval-tech/victoriametrics-operator/issues/131
                       type: string
                     targetLabel:
                       description: Label to which the resulting value is written in
@@ -1467,7 +1467,7 @@ spec:
                       description: UnderScoreSourceLabels - additional form of source
                         labels source_labels for compatibility with original relabel
                         config. if set  both sourceLabels and source_labels, sourceLabels
-                        has priority. for details https://github.com/VictoriaMetrics/operator/issues/131
+                        has priority. for details https://github.com/shturval-tech/victoriametrics-operator/issues/131
                       items:
                         type: string
                       type: array
@@ -1483,7 +1483,7 @@ spec:
                       description: UnderScoreTargetLabel - additional form of target
                         label - target_label for compatibility with original relabel
                         config. if set  both targetLabel and target_label, targetLabel
-                        has priority. for details https://github.com/VictoriaMetrics/operator/issues/131
+                        has priority. for details https://github.com/shturval-tech/victoriametrics-operator/issues/131
                       type: string
                     targetLabel:
                       description: Label to which the resulting value is written in
@@ -1713,7 +1713,7 @@ spec:
                               of source labels source_labels for compatibility with
                               original relabel config. if set  both sourceLabels and
                               source_labels, sourceLabels has priority. for details
-                              https://github.com/VictoriaMetrics/operator/issues/131
+                              https://github.com/shturval-tech/victoriametrics-operator/issues/131
                             items:
                               type: string
                             type: array
@@ -1729,7 +1729,7 @@ spec:
                             description: UnderScoreTargetLabel - additional form of
                               target label - target_label for compatibility with original
                               relabel config. if set  both targetLabel and target_label,
-                              targetLabel has priority. for details https://github.com/VictoriaMetrics/operator/issues/131
+                              targetLabel has priority. for details https://github.com/shturval-tech/victoriametrics-operator/issues/131
                             type: string
                           targetLabel:
                             description: Label to which the resulting value is written
@@ -1914,7 +1914,7 @@ spec:
                                         form of source labels source_labels for compatibility
                                         with original relabel config. if set  both
                                         sourceLabels and source_labels, sourceLabels
-                                        has priority. for details https://github.com/VictoriaMetrics/operator/issues/131
+                                        has priority. for details https://github.com/shturval-tech/victoriametrics-operator/issues/131
                                       items:
                                         type: string
                                       type: array
@@ -1932,7 +1932,7 @@ spec:
                                         form of target label - target_label for compatibility
                                         with original relabel config. if set  both
                                         targetLabel and target_label, targetLabel
-                                        has priority. for details https://github.com/VictoriaMetrics/operator/issues/131
+                                        has priority. for details https://github.com/shturval-tech/victoriametrics-operator/issues/131
                                       type: string
                                     targetLabel:
                                       description: Label to which the resulting value
@@ -2004,7 +2004,7 @@ spec:
                                         form of source labels source_labels for compatibility
                                         with original relabel config. if set  both
                                         sourceLabels and source_labels, sourceLabels
-                                        has priority. for details https://github.com/VictoriaMetrics/operator/issues/131
+                                        has priority. for details https://github.com/shturval-tech/victoriametrics-operator/issues/131
                                       items:
                                         type: string
                                       type: array
@@ -2022,7 +2022,7 @@ spec:
                                         form of target label - target_label for compatibility
                                         with original relabel config. if set  both
                                         targetLabel and target_label, targetLabel
-                                        has priority. for details https://github.com/VictoriaMetrics/operator/issues/131
+                                        has priority. for details https://github.com/shturval-tech/victoriametrics-operator/issues/131
                                       type: string
                                     targetLabel:
                                       description: Label to which the resulting value
@@ -2488,7 +2488,7 @@ spec:
                       description: UnderScoreSourceLabels - additional form of source
                         labels source_labels for compatibility with original relabel
                         config. if set  both sourceLabels and source_labels, sourceLabels
-                        has priority. for details https://github.com/VictoriaMetrics/operator/issues/131
+                        has priority. for details https://github.com/shturval-tech/victoriametrics-operator/issues/131
                       items:
                         type: string
                       type: array
@@ -2504,7 +2504,7 @@ spec:
                       description: UnderScoreTargetLabel - additional form of target
                         label - target_label for compatibility with original relabel
                         config. if set  both targetLabel and target_label, targetLabel
-                        has priority. for details https://github.com/VictoriaMetrics/operator/issues/131
+                        has priority. for details https://github.com/shturval-tech/victoriametrics-operator/issues/131
                       type: string
                     targetLabel:
                       description: Label to which the resulting value is written in
@@ -3068,7 +3068,7 @@ spec:
                       description: UnderScoreSourceLabels - additional form of source
                         labels source_labels for compatibility with original relabel
                         config. if set  both sourceLabels and source_labels, sourceLabels
-                        has priority. for details https://github.com/VictoriaMetrics/operator/issues/131
+                        has priority. for details https://github.com/shturval-tech/victoriametrics-operator/issues/131
                       items:
                         type: string
                       type: array
@@ -3084,7 +3084,7 @@ spec:
                       description: UnderScoreTargetLabel - additional form of target
                         label - target_label for compatibility with original relabel
                         config. if set  both targetLabel and target_label, targetLabel
-                        has priority. for details https://github.com/VictoriaMetrics/operator/issues/131
+                        has priority. for details https://github.com/shturval-tech/victoriametrics-operator/issues/131
                       type: string
                     targetLabel:
                       description: Label to which the resulting value is written in

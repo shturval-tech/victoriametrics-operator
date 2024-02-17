@@ -23,7 +23,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/manager/signals"
 
-	"github.com/VictoriaMetrics/operator/internal/manager"
+	"github.com/shturval-tech/victoriametrics-operator/internal/manager"
 )
 
 var (

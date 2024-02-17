@@ -3,11 +3,10 @@ package e2e
 import (
 	"testing"
 
-	"github.com/VictoriaMetrics/operator/e2e/suite"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"github.com/shturval-tech/victoriametrics-operator/e2e/suite"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/envtest/printer"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -19,7 +18,7 @@ func TestAPIs(t *testing.T) {
 
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"e2e Controller Suite",
-		[]Reporter{printer.NewlineReporter{}})
+		[]Reporter{})
 }
 
 var k8sClient client.Client

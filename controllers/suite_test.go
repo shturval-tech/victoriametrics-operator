@@ -31,8 +31,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 
-	operatorv1beta1 "github.com/VictoriaMetrics/operator/api/v1beta1"
-	victoriametricsv1beta1 "github.com/VictoriaMetrics/operator/api/v1beta1"
+	operatorv1beta1 "github.com/shturval-tech/victoriametrics-operator/api/v1beta1"
+	victoriametricsv1beta1 "github.com/shturval-tech/victoriametrics-operator/api/v1beta1"
 	// +kubebuilder:scaffold:imports
 )
 

@@ -17,7 +17,7 @@ The `VMAgent` CRD declaratively defines a desired [VMAgent](https://docs.victori
 setup to run in a Kubernetes cluster.
 
 It requires access to Kubernetes API and you can create RBAC for it first, it can be found 
-at [`examples/vmagent_rbac.yaml`](https://github.com/VictoriaMetrics/operator/blob/master/config/examples/vmagent_rbac.yaml)
+at [`examples/vmagent_rbac.yaml`](https://github.com/shturval-tech/victoriametrics-operator/blob/master/config/examples/vmagent_rbac.yaml)
 Or you can use default rbac account, that will be created for `VMAgent` by operator automatically.
 
 For each `VMAgent` resource Operator deploys a properly configured `Deployment` in the same namespace.
@@ -290,9 +290,9 @@ are not deployed on the same node. You can use another `topologyKey` for availab
 
 **Note** that at the moment operator doesn't use `-promscrape.cluster.replicationFactor` parameter of `VMAgent` and 
 creates `replicaCount` of replicas for each shard (which leads greater resource consumption). 
-This will be fixed in the future, more details can be seen in [this issue](https://github.com/VictoriaMetrics/operator/issues/604).
+This will be fixed in the future, more details can be seen in [this issue](https://github.com/shturval-tech/victoriametrics-operator/issues/604).
 
-Also see [this example](https://github.com/VictoriaMetrics/operator/blob/master/config/examples/vmagent_stateful_with_sharding.yaml).
+Also see [this example](https://github.com/shturval-tech/victoriametrics-operator/blob/master/config/examples/vmagent_stateful_with_sharding.yaml).
 
 ## Additional scrape configuration
 

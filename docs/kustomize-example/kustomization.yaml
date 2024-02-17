@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- github.com/VictoriaMetrics/operator/config/default?ref=v0.2.0
+- github.com/shturval-tech/victoriametrics-operator/config/default?ref=v0.2.0
 
 namespace: team-a-monitoring
 images:

@@ -3,7 +3,7 @@ package factory
 import (
 	"fmt"
 
-	victoriametricsv1beta1 "github.com/VictoriaMetrics/operator/api/v1beta1"
+	victoriametricsv1beta1 "github.com/shturval-tech/victoriametrics-operator/api/v1beta1"
 	"gopkg.in/yaml.v2"
 )
 

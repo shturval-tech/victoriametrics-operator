@@ -2,16 +2,16 @@ package converter
 
 import (
 	"fmt"
-	"github.com/VictoriaMetrics/operator/internal/config"
 	"github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1alpha1"
+	"github.com/shturval-tech/victoriametrics-operator/internal/config"
 	v12 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"reflect"
 	"testing"
 
 	corev1 "k8s.io/api/core/v1"
 
-	v1beta1vm "github.com/VictoriaMetrics/operator/api/v1beta1"
 	v1 "github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1"
+	v1beta1vm "github.com/shturval-tech/victoriametrics-operator/api/v1beta1"
 )
 
 func TestConvertTlsConfig(t *testing.T) {

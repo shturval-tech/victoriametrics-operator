@@ -18,7 +18,7 @@ limitations under the License.
 package v1beta1
 
 import (
-	internalinterfaces "github.com/VictoriaMetrics/operator/api/client/informers/externalversions/internalinterfaces"
+	internalinterfaces "github.com/shturval-tech/victoriametrics-operator/api/client/informers/externalversions/internalinterfaces"
 )
 
 // Interface provides access to all the informers in this group version.

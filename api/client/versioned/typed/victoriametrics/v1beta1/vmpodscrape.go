@@ -21,8 +21,8 @@ import (
 	"context"
 	"time"
 
-	scheme "github.com/VictoriaMetrics/operator/api/client/versioned/scheme"
-	v1beta1 "github.com/VictoriaMetrics/operator/api/victoriametrics/v1beta1"
+	scheme "github.com/shturval-tech/victoriametrics-operator/api/client/versioned/scheme"
+	v1beta1 "github.com/shturval-tech/victoriametrics-operator/api/victoriametrics/v1beta1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"

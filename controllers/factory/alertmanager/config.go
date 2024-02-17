@@ -8,7 +8,7 @@ import (
 	"sort"
 	"strings"
 
-	operatorv1beta1 "github.com/VictoriaMetrics/operator/api/v1beta1"
+	operatorv1beta1 "github.com/shturval-tech/victoriametrics-operator/api/v1beta1"
 	"gopkg.in/yaml.v2"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/types"

@@ -20,8 +20,8 @@ package v1beta1
 import (
 	"net/http"
 
-	"github.com/VictoriaMetrics/operator/api/client/versioned/scheme"
-	v1beta1 "github.com/VictoriaMetrics/operator/api/victoriametrics/v1beta1"
+	"github.com/shturval-tech/victoriametrics-operator/api/client/versioned/scheme"
+	v1beta1 "github.com/shturval-tech/victoriametrics-operator/api/victoriametrics/v1beta1"
 	rest "k8s.io/client-go/rest"
 )
 
