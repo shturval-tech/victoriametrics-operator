@@ -3,10 +3,12 @@ package alertmanager
 import (
 	"context"
 	"fmt"
+	"github.com/prometheus/common/model"
 	"net/url"
 	"path"
 	"sort"
 	"strings"
+	"time"
 
 	operatorv1beta1 "github.com/VictoriaMetrics/operator/api/v1beta1"
 	"gopkg.in/yaml.v2"
@@ -45,6 +47,15 @@ func BuildConfig(ctx context.Context, rclient client.Client, mustAddNamespaceMat
 	var firstReceiverName string
 	var badObjectsCount int
 	var parseErrors []string
+	var globalConfig GlobalConfig
+	if baseYAMlCfg.Global != nil {
+		if err := yaml.Unmarshal(baseCfg, &globalConfig); err != nil {
+			return nil, err
+		}
+	} else {
+		globalConfig = DefaultGlobalConfig()
+	}
+	global := globalConfig.Global
 
 OUTER:
 	for _, posIdx := range amConfigIdentifiers {
@@ -67,6 +78,135 @@ OUTER:
 			}
 			if len(receiverCfg) > 0 {
 				receiverCfgs = append(receiverCfgs, receiverCfg)
+			}
+			for _, ec := range receiver.EmailConfigs {
+				if ec.Smarthost == "" {
+					if global.SMTPSmartHostPort == "" {
+						parseErrors = append(parseErrors, fmt.Sprintf("no global SMTP smarthost set in object: %s, will ignore vmalertmanagerconfig %s",
+							amcKey.AsKey(), amcKey.Name))
+						badObjectsCount++
+						continue OUTER
+					}
+				}
+				if ec.From == "" {
+					if global.SMTPFrom == "" {
+						parseErrors = append(parseErrors, fmt.Sprintf("no global SMTP from set in object: %s, will ignore vmalertmanagerconfig %s", amcKey.AsKey(), amcKey.Name))
+						badObjectsCount++
+						continue OUTER
+					}
+				}
+			}
+			for _, sc := range receiver.SlackConfigs {
+
+				if sc.APIURL == nil {
+					if _, err := ToURL(global.SlackAPIURL); err != nil && len(global.SlackAPIURLFile) == 0 {
+						parseErrors = append(parseErrors, fmt.Sprintf("no global Slack API URL set either inline or in a file in object: %s, will ignore vmalertmanagerconfig %s",
+							amcKey.AsKey(), amcKey.Name))
+						badObjectsCount++
+						continue OUTER
+					}
+				}
+			}
+
+			for _, pdc := range receiver.PagerDutyConfigs {
+				if pdc.URL == "" {
+					if _, err := ToURL(global.PagerdutyURL); err != nil {
+						parseErrors = append(parseErrors, fmt.Sprintf("no global PagerDuty URL set in object: %s, will ignore vmalertmanagerconfig %s",
+							amcKey.AsKey(), amcKey.Name))
+						badObjectsCount++
+						continue OUTER
+					}
+				}
+			}
+			for _, ogc := range receiver.OpsGenieConfigs {
+				if ogc.APIURL == "" {
+					if _, err := ToURL(global.OpsGenieAPIURL); err != nil {
+						parseErrors = append(parseErrors, fmt.Sprintf("no global OpsGenie URL set in object: %s, will ignore vmalertmanagerconfig %s",
+							amcKey.AsKey(), amcKey.Name))
+						badObjectsCount++
+						continue OUTER
+					}
+				}
+				if ogc.APIKey == nil {
+					if global.OpsGenieAPIKey == "" && len(global.OpsGenieAPIKeyFile) == 0 {
+						parseErrors = append(parseErrors, fmt.Sprintf("no global OpsGenie API Key set either inline or in a file in object: %s, will ignore vmalertmanagerconfig %s",
+							amcKey.AsKey(), amcKey.Name))
+						badObjectsCount++
+						continue OUTER
+					}
+				}
+			}
+			for _, wcc := range receiver.WeChatConfigs {
+				if wcc.APIURL == "" {
+					if _, err := ToURL(global.WeChatAPIURL); err != nil {
+						parseErrors = append(parseErrors, fmt.Sprintf("no global Wechat URL set in object: %s, will ignore vmalertmanagerconfig %s",
+							amcKey.AsKey(), amcKey.Name))
+						badObjectsCount++
+						continue OUTER
+					}
+				}
+
+				if wcc.APISecret == nil {
+					if global.WeChatAPISecret == "" {
+						parseErrors = append(parseErrors, fmt.Sprintf("no global Wechat ApiSecret set in object: %s, will ignore vmalertmanagerconfig %s",
+							amcKey.AsKey(), amcKey.Name))
+						badObjectsCount++
+						continue OUTER
+					}
+				}
+
+				if wcc.CorpID == "" {
+					if global.WeChatAPICorpID == "" {
+						parseErrors = append(parseErrors, fmt.Sprintf("no global Wechat CorpID set in object: %s, will ignore vmalertmanagerconfig %s",
+							amcKey.AsKey(), amcKey.Name))
+						badObjectsCount++
+						continue OUTER
+					}
+				}
+			}
+			for _, voc := range receiver.VictorOpsConfigs {
+				if voc.APIURL == "" {
+					if _, err := ToURL(global.VictorOpsAPIURL); err != nil {
+						parseErrors = append(parseErrors, fmt.Sprintf("no global VictorOps URL set in object: %s, will ignore vmalertmanagerconfig %s",
+							amcKey.AsKey(), amcKey.Name))
+						badObjectsCount++
+						continue OUTER
+					}
+				}
+				if voc.APIKey == nil {
+					if global.VictorOpsAPIKey == "" && len(global.VictorOpsAPIKeyFile) == 0 {
+						parseErrors = append(parseErrors, fmt.Sprintf("no global VictorOps API Key set in object: %s, will ignore vmalertmanagerconfig %s",
+							amcKey.AsKey(), amcKey.Name))
+						badObjectsCount++
+						continue OUTER
+					}
+				}
+			}
+			for _, discord := range receiver.DiscordConfigs {
+				if discord.URL == nil {
+					parseErrors = append(parseErrors, fmt.Sprintf("no discord webhook URL provided in object: %s, will ignore vmalertmanagerconfig %s",
+						amcKey.AsKey(), amcKey.Name))
+					badObjectsCount++
+					continue OUTER
+				}
+			}
+			for _, webex := range receiver.WebexConfigs {
+				if webex.URL == nil {
+					if _, err := ToURL(global.WebexAPIURL); err != nil {
+						parseErrors = append(parseErrors, fmt.Sprintf("no global Webex URL set in object: %s, will ignore vmalertmanagerconfig %s",
+							amcKey.AsKey(), amcKey.Name))
+						badObjectsCount++
+						continue OUTER
+					}
+				}
+			}
+			for _, msteams := range receiver.MSTeamsConfigs {
+				if msteams.URL == nil {
+					parseErrors = append(parseErrors, fmt.Sprintf("no msteams webhook URL provided in object: %s, will ignore vmalertmanagerconfig %s",
+						amcKey.AsKey(), amcKey.Name))
+					badObjectsCount++
+					continue OUTER
+				}
 			}
 		}
 
@@ -112,7 +252,6 @@ OUTER:
 	if len(muteIntervals) > 0 {
 		baseYAMlCfg.MuteTimeIntervals = append(baseYAMlCfg.MuteTimeIntervals, muteIntervals...)
 	}
-
 	result, err := yaml.Marshal(baseYAMlCfg)
 	if err != nil {
 		return nil, err
@@ -328,6 +467,73 @@ type route struct {
 	RepeatInterval      string            `yaml:"repeat_interval,omitempty" json:"repeat_interval,omitempty"`
 	MuteTimeIntervals   []string          `yaml:"mute_time_intervals,omitempty" json:"mute_time_intervals,omitempty"`
 	ActiveTimeIntervals []string          `yaml:"active_time_intervals,omitempty" json:"active_time_intervals,omitempty"`
+}
+
+type Global struct {
+	ResolveTimeout       model.Duration `yaml:"resolve_timeout" json:"resolve_timeout"`
+	HTTPConfig           interface{}    `yaml:"http_config,omitempty" json:"http_config,omitempty"`
+	SMTPFrom             string         `yaml:"smtp_from,omitempty" json:"smtp_from,omitempty"`
+	SMTPHello            string         `yaml:"smtp_hello,omitempty" json:"smtp_hello,omitempty"`
+	SMTPSmartHostPort    string         `yaml:"smtp_smarthost,omitempty" json:"smtp_smarthost,omitempty"`
+	SMTPAuthUsername     string         `yaml:"smtp_auth_username,omitempty" json:"smtp_auth_username,omitempty"`
+	SMTPAuthPassword     Secret         `yaml:"smtp_auth_password,omitempty" json:"smtp_auth_password,omitempty"`
+	SMTPAuthPasswordFile string         `yaml:"smtp_auth_password_file,omitempty" json:"smtp_auth_password_file,omitempty"`
+	SMTPAuthSecret       Secret         `yaml:"smtp_auth_secret,omitempty" json:"smtp_auth_secret,omitempty"`
+	SMTPAuthIdentity     string         `yaml:"smtp_auth_identity,omitempty" json:"smtp_auth_identity,omitempty"`
+	SMTPRequireTLS       bool           `yaml:"smtp_require_tls" json:"smtp_require_tls,omitempty"`
+	SlackAPIURL          string         `yaml:"slack_api_url,omitempty" json:"slack_api_url,omitempty"`
+	SlackAPIURLFile      string         `yaml:"slack_api_url_file,omitempty" json:"slack_api_url_file,omitempty"`
+	PagerdutyURL         string         `yaml:"pagerduty_url,omitempty" json:"pagerduty_url,omitempty"`
+	OpsGenieAPIURL       string         `yaml:"opsgenie_api_url,omitempty" json:"opsgenie_api_url,omitempty"`
+	OpsGenieAPIKey       Secret         `yaml:"opsgenie_api_key,omitempty" json:"opsgenie_api_key,omitempty"`
+	OpsGenieAPIKeyFile   string         `yaml:"opsgenie_api_key_file,omitempty" json:"opsgenie_api_key_file,omitempty"`
+	WeChatAPIURL         string         `yaml:"wechat_api_url,omitempty" json:"wechat_api_url,omitempty"`
+	WeChatAPISecret      Secret         `yaml:"wechat_api_secret,omitempty" json:"wechat_api_secret,omitempty"`
+	WeChatAPICorpID      string         `yaml:"wechat_api_corp_id,omitempty" json:"wechat_api_corp_id,omitempty"`
+	VictorOpsAPIURL      string         `yaml:"victorops_api_url,omitempty" json:"victorops_api_url,omitempty"`
+	VictorOpsAPIKey      Secret         `yaml:"victorops_api_key,omitempty" json:"victorops_api_key,omitempty"`
+	VictorOpsAPIKeyFile  string         `yaml:"victorops_api_key_file,omitempty" json:"victorops_api_key_file,omitempty"`
+	TelegramAPIUrl       string         `yaml:"telegram_api_url,omitempty" json:"telegram_api_url,omitempty"`
+	WebexAPIURL          string         `yaml:"webex_api_url,omitempty" json:"webex_api_url,omitempty"`
+}
+
+type GlobalConfig struct {
+	Global Global `yaml:"global"`
+}
+
+func DefaultGlobalConfig() GlobalConfig {
+	return GlobalConfig{
+		Global: Global{
+			ResolveTimeout:  model.Duration(5 * time.Minute),
+			SMTPHello:       "localhost",
+			SMTPRequireTLS:  true,
+			PagerdutyURL:    "https://events.pagerduty.com/v2/enqueue",
+			OpsGenieAPIURL:  "https://api.opsgenie.com/",
+			WeChatAPIURL:    "https://qyapi.weixin.qq.com/cgi-bin/",
+			VictorOpsAPIURL: "https://alert.victorops.com/integrations/generic/20131114/alert/",
+			TelegramAPIUrl:  "https://api.telegram.org",
+			WebexAPIURL:     "https://webexapis.com/v1/messages"},
+	}
+}
+
+func ToURL(s string) (*URL, error) {
+	u, err := url.Parse(s)
+	if err != nil {
+		return nil, err
+	}
+	if u.Scheme != "http" && u.Scheme != "https" {
+		return nil, fmt.Errorf("unsupported scheme %q for URL", u.Scheme)
+	}
+	if u.Host == "" {
+		return nil, fmt.Errorf("missing host for URL")
+	}
+	return &URL{u}, nil
+}
+
+type Secret string
+type SecretURL url.URL
+type URL struct {
+	*url.URL
 }
 
 func buildReceiver(

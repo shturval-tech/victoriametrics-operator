@@ -37,7 +37,8 @@ func TestBuildConfig(t *testing.T) {
 			args: args{
 				ctx: context.Background(),
 				baseCfg: []byte(`global:
- time_out: 1min
+ resolve_timeout: 1m
+ smtp_smarthost: localhost:5123
 `),
 				amcfgs: map[string]*operatorv1beta1.VMAlertmanagerConfig{
 					"default/base": {
@@ -71,20 +72,21 @@ func TestBuildConfig(t *testing.T) {
 							},
 							Route: &operatorv1beta1.Route{
 								Receiver:  "email",
-								GroupWait: "1min",
+								GroupWait: "1m",
 							},
 						},
 					},
 				},
 			},
 			want: `global:
-  time_out: 1min
+  resolve_timeout: 1m
+  smtp_smarthost: localhost:5123
 route:
   receiver: default-base-email
   routes:
   - matchers:
     - namespace = "default"
-    group_wait: 1min
+    group_wait: 1m
     receiver: default-base-email
     continue: true
 receivers:
@@ -109,7 +111,9 @@ templates: []
 			args: args{
 				ctx: context.Background(),
 				baseCfg: []byte(`global:
- time_out: 1min
+ resolve_timeout: 1m
+ smtp_smarthost: localhost:5123
+ opsgenie_api_key: test_key
 `),
 				amcfgs: map[string]*operatorv1beta1.VMAlertmanagerConfig{
 					"default/base": {
@@ -150,7 +154,7 @@ templates: []
 							},
 							Route: &operatorv1beta1.Route{
 								Receiver:  "email",
-								GroupWait: "1min",
+								GroupWait: "1m",
 								Routes: []*operatorv1beta1.SubRoute{
 									{
 										Receiver: "webhook",
@@ -197,7 +201,9 @@ templates: []
 				},
 			},
 			want: `global:
-  time_out: 1min
+  opsgenie_api_key: test_key
+  resolve_timeout: 1m
+  smtp_smarthost: localhost:5123
 route:
   receiver: default-base-email
   routes:
@@ -206,7 +212,7 @@ route:
       continue: false
     matchers:
     - namespace = "default"
-    group_wait: 1min
+    group_wait: 1m
     receiver: default-base-email
     continue: true
   - matchers:
@@ -257,7 +263,7 @@ templates: []
 			args: args{
 				ctx: context.Background(),
 				baseCfg: []byte(`global:
- time_out: 1min
+ resolve_timeout: 1m
 `),
 				amcfgs: map[string]*operatorv1beta1.VMAlertmanagerConfig{
 					"default/base": {
@@ -284,7 +290,7 @@ templates: []
 							},
 							Route: &operatorv1beta1.Route{
 								Receiver:  "webhook",
-								GroupWait: "1min",
+								GroupWait: "1m",
 							},
 						},
 					},
@@ -302,13 +308,13 @@ templates: []
 				},
 			},
 			want: `global:
-  time_out: 1min
+  resolve_timeout: 1m
 route:
   receiver: default-base-webhook
   routes:
   - matchers:
     - namespace = "default"
-    group_wait: 1min
+    group_wait: 1m
     receiver: default-base-webhook
     continue: true
 receivers:
@@ -324,7 +330,7 @@ templates: []
 			args: args{
 				ctx: context.Background(),
 				baseCfg: []byte(`global:
- time_out: 1min
+ resolve_timeout: 1m
 `),
 				amcfgs: map[string]*operatorv1beta1.VMAlertmanagerConfig{
 					"default/base": {
@@ -373,7 +379,7 @@ templates: []
 							},
 							Route: &operatorv1beta1.Route{
 								Receiver:  "slack",
-								GroupWait: "1min",
+								GroupWait: "1m",
 							},
 						},
 					},
@@ -391,13 +397,13 @@ templates: []
 				},
 			},
 			want: `global:
-  time_out: 1min
+  resolve_timeout: 1m
 route:
   receiver: default-base-slack
   routes:
   - matchers:
     - namespace = "default"
-    group_wait: 1min
+    group_wait: 1m
     receiver: default-base-slack
     continue: true
 receivers:
@@ -427,7 +433,8 @@ templates: []
 			args: args{
 				ctx: context.Background(),
 				baseCfg: []byte(`global:
- time_out: 1min
+ pagerduty_url: http://test.test
+ resolve_timeout: 1m
 `),
 				amcfgs: map[string]*operatorv1beta1.VMAlertmanagerConfig{
 					"default/base": {
@@ -480,7 +487,7 @@ templates: []
 							},
 							Route: &operatorv1beta1.Route{
 								Receiver:  "pagerduty",
-								GroupWait: "1min",
+								GroupWait: "1m",
 							},
 						},
 					},
@@ -493,13 +500,14 @@ templates: []
 				},
 			},
 			want: `global:
-  time_out: 1min
+  pagerduty_url: http://test.test
+  resolve_timeout: 1m
 route:
   receiver: default-base-pagerduty
   routes:
   - matchers:
     - namespace = "default"
-    group_wait: 1min
+    group_wait: 1m
     receiver: default-base-pagerduty
     continue: true
 receivers:
@@ -545,7 +553,7 @@ templates: []
 			args: args{
 				ctx: context.Background(),
 				baseCfg: []byte(`global:
- time_out: 1min
+ resolve_timeout: 1m
 `),
 				amcfgs: map[string]*operatorv1beta1.VMAlertmanagerConfig{
 					"default/base": {
@@ -574,20 +582,20 @@ templates: []
 							},
 							Route: &operatorv1beta1.Route{
 								Receiver:  "telegram",
-								GroupWait: "1min",
+								GroupWait: "1m",
 							},
 						},
 					},
 				},
 			},
 			want: `global:
-  time_out: 1min
+  resolve_timeout: 1m
 route:
   receiver: default-tg-telegram
   routes:
   - matchers:
     - namespace = "default"
-    group_wait: 1min
+    group_wait: 1m
     receiver: default-tg-telegram
     continue: true
 receivers:
@@ -605,7 +613,7 @@ templates: []
 			args: args{
 				ctx: context.Background(),
 				baseCfg: []byte(`global:
- time_out: 1min
+ resolve_timeout: 1m
 `),
 				amcfgs: map[string]*operatorv1beta1.VMAlertmanagerConfig{
 					"default/base": {
@@ -632,7 +640,7 @@ templates: []
 							},
 							Route: &operatorv1beta1.Route{
 								Receiver:  "slack",
-								GroupWait: "1min",
+								GroupWait: "1m",
 							},
 						},
 					},
@@ -651,7 +659,7 @@ templates: []
 			},
 			parseError: "invalid URL bad_url in key bad_url from secret slack: unsupported scheme \"\" for URL in object: default/base, will ignore vmalertmanagerconfig base",
 			want: `global:
-  time_out: 1min
+  resolve_timeout: 1m
 templates: []
 `,
 		},
@@ -660,7 +668,7 @@ templates: []
 			args: args{
 				ctx: context.Background(),
 				baseCfg: []byte(`global:
- time_out: 1min
+ resolve_timeout: 1m
 `),
 				amcfgs: map[string]*operatorv1beta1.VMAlertmanagerConfig{
 					"default/base": {
@@ -689,7 +697,7 @@ templates: []
 							},
 							Route: &operatorv1beta1.Route{
 								Receiver:  "telegram",
-								GroupWait: "1min",
+								GroupWait: "1m",
 							},
 						},
 					},
@@ -713,7 +721,7 @@ templates: []
 							},
 							Route: &operatorv1beta1.Route{
 								Receiver:  "telegram",
-								GroupWait: "1min",
+								GroupWait: "1m",
 							},
 						},
 					},
@@ -721,13 +729,13 @@ templates: []
 			},
 			parseError: "cannot find secret for VMAlertmanager config: tg, receiver: telegram, err :secrets \"tg-secret\" not found in object: default/tg, will ignore vmalertmanagerconfig tg",
 			want: `global:
-  time_out: 1min
+  resolve_timeout: 1m
 route:
   receiver: default-tg-telegram
   routes:
   - matchers:
     - namespace = "default"
-    group_wait: 1min
+    group_wait: 1m
     receiver: default-tg-telegram
     continue: true
 receivers:
@@ -744,7 +752,8 @@ templates: []
 			args: args{
 				ctx: context.Background(),
 				baseCfg: []byte(`global:
- time_out: 1min
+ resolve_timeout: 1m
+ smtp_smarthost: localhost:5123
 `),
 				amcfgs: map[string]*operatorv1beta1.VMAlertmanagerConfig{
 					"default/base": {
@@ -774,7 +783,7 @@ templates: []
 							},
 							Route: &operatorv1beta1.Route{
 								Receiver:  "duplicate-receiver",
-								GroupWait: "1min",
+								GroupWait: "1m",
 							},
 						},
 					},
@@ -782,7 +791,8 @@ templates: []
 			},
 			parseError: "got duplicate receiver name duplicate-receiver in object default/base, will ignore vmalertmanagerconfig base",
 			want: `global:
-  time_out: 1min
+  resolve_timeout: 1m
+  smtp_smarthost: localhost:5123
 templates: []
 `,
 		},
@@ -791,7 +801,7 @@ templates: []
 			args: args{
 				ctx: context.Background(),
 				baseCfg: []byte(`global:
- time_out: 1min
+ resolve_timeout: 1m
 `),
 				amcfgs: map[string]*operatorv1beta1.VMAlertmanagerConfig{
 					"default/base": {
@@ -812,7 +822,7 @@ templates: []
 							},
 							Route: &operatorv1beta1.Route{
 								Receiver:            "email",
-								GroupWait:           "1min",
+								GroupWait:           "1m",
 								ActiveTimeIntervals: []string{"duplicate-interval"},
 							},
 						},
@@ -821,7 +831,7 @@ templates: []
 			},
 			parseError: "got duplicate timeInterval name duplicate-interval in object default/base, will ignore vmalertmanagerconfig base",
 			want: `global:
-  time_out: 1min
+  resolve_timeout: 1m
 templates: []
 `,
 		},
@@ -830,7 +840,7 @@ templates: []
 			args: args{
 				ctx: context.Background(),
 				baseCfg: []byte(`global:
- time_out: 1min
+ resolve_timeout: 1m
 `),
 				amcfgs: map[string]*operatorv1beta1.VMAlertmanagerConfig{
 					"default/base": {
@@ -841,7 +851,7 @@ templates: []
 						Spec: operatorv1beta1.VMAlertmanagerConfigSpec{
 							Route: &operatorv1beta1.Route{
 								Receiver:  "receiver-not-defined",
-								GroupWait: "1min",
+								GroupWait: "1m",
 							},
 						},
 					},
@@ -849,7 +859,7 @@ templates: []
 			},
 			parseError: "receiver receiver-not-defined not defined in object default/base, will ignore vmalertmanagerconfig base",
 			want: `global:
-  time_out: 1min
+  resolve_timeout: 1m
 templates: []
 `,
 		},
@@ -858,7 +868,7 @@ templates: []
 			args: args{
 				ctx: context.Background(),
 				baseCfg: []byte(`global:
- time_out: 1min
+ resolve_timeout: 1m
 `),
 				amcfgs: map[string]*operatorv1beta1.VMAlertmanagerConfig{
 					"default/base": {
@@ -869,7 +879,7 @@ templates: []
 						Spec: operatorv1beta1.VMAlertmanagerConfigSpec{
 							Route: &operatorv1beta1.Route{
 								ActiveTimeIntervals: []string{"interval-not-defined"},
-								GroupWait:           "1min",
+								GroupWait:           "1m",
 							},
 						},
 					},
@@ -877,7 +887,7 @@ templates: []
 			},
 			parseError: "time_intervals interval-not-defined not defined in object default/base, will ignore vmalertmanagerconfig base",
 			want: `global:
-  time_out: 1min
+  resolve_timeout: 1m
 templates: []
 `,
 		},

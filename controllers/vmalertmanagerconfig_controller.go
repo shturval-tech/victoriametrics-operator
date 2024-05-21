@@ -18,11 +18,13 @@ package controllers
 
 import (
 	"context"
-	"github.com/VictoriaMetrics/operator/controllers/factory/limiter"
-
+	"fmt"
 	"github.com/VictoriaMetrics/operator/controllers/factory"
+	"github.com/VictoriaMetrics/operator/controllers/factory/alertmanager"
+	"github.com/VictoriaMetrics/operator/controllers/factory/limiter"
 	"github.com/VictoriaMetrics/operator/internal/config"
 	"github.com/go-logr/logr"
+	"gopkg.in/yaml.v2"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -57,7 +59,7 @@ func (r *VMAlertmanagerConfigReconciler) Reconcile(ctx context.Context, req ctrl
 	if err := r.Client.Get(ctx, req.NamespacedName, &instance); err != nil {
 		return handleGetError(req, "vmalertmanagerconfig", err)
 	}
-
+	original := instance.DeepCopy()
 	RegisterObjectStat(&instance, "vmalertmanagerconfig")
 
 	if vmaConfigRateLimiter.MustThrottleReconcile() {
@@ -88,12 +90,133 @@ func (r *VMAlertmanagerConfigReconciler) Reconcile(ctx context.Context, req ctrl
 			// selector do not match fast path
 			continue
 		}
+
+		if err := r.ValidateGlobal(instance, am); err != nil {
+			l.Error(err, "cannot  reconcile alertmanager")
+			instance.Status.ErrorReason += fmt.Sprintf("cannot  reconcile alertmanager: %s; ", err.Error())
+			continue
+		}
+
 		if err := factory.CreateOrUpdateAlertManager(ctx, am, r.Client, r.BaseConf); err != nil {
 			l.Error(err, "cannot  reconcile alertmanager")
 			continue
 		}
 	}
+
+	defer func() {
+		if instance.DeletionTimestamp == nil {
+			if statusError := r.Client.Status().Patch(ctx, &instance, client.MergeFrom(original)); statusError != nil {
+				l.Error(err, "failed resource patch status VmAlertManagerConfig")
+				if err == nil {
+					err = statusError
+				}
+			}
+		}
+	}()
+
 	return
+}
+
+func (ac *VMAlertmanagerConfigReconciler) ValidateGlobal(c operatorv1beta1.VMAlertmanagerConfig, m *operatorv1beta1.VMAlertmanager) error {
+	globalConfig := alertmanager.GlobalConfig{}
+	if len(m.Spec.ConfigRawYaml) == 0 {
+		globalConfig = alertmanager.DefaultGlobalConfig()
+	}
+	if err := yaml.Unmarshal([]byte(m.Spec.ConfigRawYaml), &globalConfig); err != nil {
+		return err
+	}
+	global := globalConfig.Global
+	for _, rcv := range c.Spec.Receivers {
+		for _, ec := range rcv.EmailConfigs {
+			if ec.Smarthost == "" {
+				if global.SMTPSmartHostPort == "" {
+					return fmt.Errorf("no global SMTP smarthost set")
+				}
+			}
+			if ec.From == "" {
+				if global.SMTPFrom == "" {
+					return fmt.Errorf("no global SMTP from set")
+				}
+			}
+		}
+		for _, sc := range rcv.SlackConfigs {
+
+			if sc.APIURL == nil {
+				if _, err := alertmanager.ToURL(global.SlackAPIURL); err != nil && len(global.SlackAPIURLFile) == 0 {
+					return fmt.Errorf("no global Slack API URL set either inline or in a file")
+				}
+			}
+		}
+
+		for _, pdc := range rcv.PagerDutyConfigs {
+			if pdc.URL == "" {
+				if _, err := alertmanager.ToURL(global.PagerdutyURL); err != nil {
+					return fmt.Errorf("no global PagerDuty URL set")
+				}
+			}
+		}
+		for _, ogc := range rcv.OpsGenieConfigs {
+			if ogc.APIURL == "" {
+				if _, err := alertmanager.ToURL(global.OpsGenieAPIURL); err != nil {
+					return fmt.Errorf("no global OpsGenie URL set")
+				}
+			}
+			if ogc.APIKey == nil {
+				if global.OpsGenieAPIKey == "" && len(global.OpsGenieAPIKeyFile) == 0 {
+					return fmt.Errorf("no global OpsGenie API Key set either inline or in a file")
+				}
+			}
+		}
+		for _, wcc := range rcv.WeChatConfigs {
+			if wcc.APIURL == "" {
+				if _, err := alertmanager.ToURL(global.WeChatAPIURL); err != nil {
+					return fmt.Errorf("no global Wechat URL set")
+				}
+			}
+
+			if wcc.APISecret == nil {
+				if global.WeChatAPISecret == "" {
+					return fmt.Errorf("no global Wechat ApiSecret set")
+				}
+			}
+
+			if wcc.CorpID == "" {
+				if global.WeChatAPICorpID == "" {
+					return fmt.Errorf("no global Wechat CorpID set")
+				}
+			}
+		}
+		for _, voc := range rcv.VictorOpsConfigs {
+			if voc.APIURL == "" {
+				if _, err := alertmanager.ToURL(global.VictorOpsAPIURL); err != nil {
+					return fmt.Errorf("no global VictorOps URL set")
+				}
+			}
+			if voc.APIKey == nil {
+				if global.VictorOpsAPIKey == "" && len(global.VictorOpsAPIKeyFile) == 0 {
+					return fmt.Errorf("no global VictorOps API Key set")
+				}
+			}
+		}
+		for _, discord := range rcv.DiscordConfigs {
+			if discord.URL == nil {
+				return fmt.Errorf("no discord webhook URL provided")
+			}
+		}
+		for _, webex := range rcv.WebexConfigs {
+			if webex.URL == nil {
+				if _, err := alertmanager.ToURL(global.WebexAPIURL); err != nil {
+					return fmt.Errorf("no global Webex URL set")
+				}
+			}
+		}
+		for _, msteams := range rcv.MSTeamsConfigs {
+			if msteams.URL == nil {
+				return fmt.Errorf("no msteams webhook URL provided")
+			}
+		}
+	}
+	return nil
 }
 
 // SetupWithManager configures reconcile

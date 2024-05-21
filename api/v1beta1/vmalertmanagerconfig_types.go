@@ -19,8 +19,10 @@ package v1beta1
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/prometheus/common/model"
 	"reflect"
 	"strings"
+	"time"
 
 	"gopkg.in/yaml.v2"
 	v1 "k8s.io/api/core/v1"
@@ -186,6 +188,9 @@ func parseNestedRoutes(src *Route) error {
 		if err := parseNestedRoutes(&subRoute); err != nil {
 			return err
 		}
+		if err := subRoute.validate(); err != nil {
+			return err
+		}
 		newRoute := SubRoute(subRoute)
 		src.Routes = append(src.Routes, &newRoute)
 	}
@@ -203,7 +208,127 @@ func (cr *VMAlertmanagerConfig) UnmarshalJSON(src []byte) error {
 		cr.Spec.ParsingError = fmt.Sprintf("cannot parse routes for alertmanager config: %s at namespace: %s, err: %s", cr.Name, cr.Namespace, err)
 		return nil
 	}
+	names := map[string]struct{}{}
+
+	for _, rcv := range cr.Spec.Receivers {
+		if _, ok := names[rcv.Name]; ok {
+			return fmt.Errorf("notification ac name %q is not unique", rcv.Name)
+		}
+		names[rcv.Name] = struct{}{}
+	}
+
+	if err := checkReceiver(cr.Spec.Route, names); err != nil {
+		return err
+	}
+
+	tiNames := make(map[string]struct{})
+
+	// read mute time intervals until deprecated
+	for _, mt := range cr.Spec.MutTimeIntervals {
+		if _, ok := tiNames[mt.Name]; ok {
+			return fmt.Errorf("mute time interval %q is not unique", mt.Name)
+		}
+		tiNames[mt.Name] = struct{}{}
+	}
+
+	for _, mt := range cr.Spec.TimeIntervals {
+		if _, ok := tiNames[mt.Name]; ok {
+			return fmt.Errorf("time interval %q is not unique", mt.Name)
+		}
+		tiNames[mt.Name] = struct{}{}
+	}
+	return checkTimeInterval(cr.Spec.Route, tiNames)
+}
+
+// checkReceiver returns an error if a node in the routing tree
+// references a receiver not in the given map.
+func checkReceiver(r *Route, receivers map[string]struct{}) error {
+	for _, sr := range r.Routes {
+		if err := checkReceiver((*Route)(sr), receivers); err != nil {
+			return err
+		}
+	}
+	if r.Receiver == "" {
+		return nil
+	}
+	if _, ok := receivers[r.Receiver]; !ok {
+		return fmt.Errorf("undefined receiver %q used in route", r.Receiver)
+	}
 	return nil
+}
+
+func checkTimeInterval(r *Route, timeIntervals map[string]struct{}) error {
+	for _, sr := range r.Routes {
+		if err := checkTimeInterval((*Route)(sr), timeIntervals); err != nil {
+			return err
+		}
+	}
+
+	for _, ti := range r.ActiveTimeIntervals {
+		if _, ok := timeIntervals[ti]; !ok {
+			return fmt.Errorf("undefined time interval %q used in route", ti)
+		}
+	}
+
+	for _, tm := range r.MuteTimeIntervals {
+		if _, ok := timeIntervals[tm]; !ok {
+			return fmt.Errorf("undefined time interval %q used in route", tm)
+		}
+	}
+	return nil
+}
+
+func (r *Route) validate() error {
+	groupByAll := false
+	for _, l := range r.GroupBy {
+		if groupByAll {
+			break
+		}
+		if l == "..." {
+			groupByAll = true
+		} else {
+			labelName := model.LabelName(l)
+			if !labelName.IsValid() {
+				return fmt.Errorf("invalid label name %q in group_by list", l)
+			}
+		}
+	}
+	if len(r.GroupBy) > 1 && groupByAll {
+		return fmt.Errorf("cannot have wildcard group_by (`...`) and other labels at the same time")
+	}
+
+	groupBy := map[string]struct{}{}
+
+	for _, ln := range r.GroupBy {
+		if _, ok := groupBy[ln]; ok {
+			return fmt.Errorf("duplicated label %q in group_by", ln)
+		}
+		groupBy[ln] = struct{}{}
+	}
+
+	if r.GroupInterval != "" {
+		interval, err := time.ParseDuration(r.GroupInterval)
+		if err != nil {
+			return fmt.Errorf("invalid group_interval format")
+
+		}
+		if interval == time.Duration(0) {
+			return fmt.Errorf("group_interval cannot be zero")
+		}
+	}
+	if r.RepeatInterval != "" {
+		interval, err := time.ParseDuration(r.RepeatInterval)
+		if err != nil {
+			return fmt.Errorf("invalid repeat_interval format")
+
+		}
+		if interval == time.Duration(0) {
+			return fmt.Errorf("repeat_interval cannot be zero")
+		}
+	}
+
+	return nil
+
 }
 
 // InhibitRule defines an inhibition rule that allows to mute alerts when other
@@ -256,7 +381,7 @@ type Receiver struct {
 	VictorOpsConfigs []VictorOpsConfig `json:"victorops_configs,omitempty"`
 	// WeChatConfigs defines wechat notification configurations.
 	// +optional
-	WeChatConfigs   []WeChatConfig   `json:"wechat_configs,omitempty"`
+	WeChatConfigs []WeChatConfig `json:"wechat_configs,omitempty"`
 	// +optional
 	TelegramConfigs []TelegramConfig `json:"telegram_configs,omitempty"`
 	// +optional
@@ -266,7 +391,8 @@ type Receiver struct {
 	// +optional
 	SNSConfigs []SnsConfig `json:"sns_configs,omitempty"`
 	// +optional
-	WebexConfigs []WebexConfig `json:"webex_configs,omitempty"`}
+	WebexConfigs []WebexConfig `json:"webex_configs,omitempty"`
+}
 
 type TelegramConfig struct {
 	// SendResolved controls notify about resolved alerts.
@@ -879,8 +1005,8 @@ type Sigv4Config struct {
 	// AWS region, if blank the region from the default credentials chain is used
 	// +optional
 	Region string `json:"region,omitempty"`
-    // The AWS API keys. Both access_key and secret_key must be supplied or both must be blank.
-    // If blank the environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` are used.
+	// The AWS API keys. Both access_key and secret_key must be supplied or both must be blank.
+	// If blank the environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` are used.
 	// +optional
 	AccessKey string `json:"access_key",omitempty"`
 	// secret key selector to get the keys from a Kubernetes Secret
@@ -910,7 +1036,7 @@ type WebexConfig struct {
 	// The message body template
 	// +optional
 	Message string `json:"message,omitempty"`
-	// HTTP client configuration. You must use this configuration to supply the bot token as part of the HTTP `Authorization` header. 
+	// HTTP client configuration. You must use this configuration to supply the bot token as part of the HTTP `Authorization` header.
 	// +optional
 	HTTPConfig *HTTPConfig `json:"http_config,omitempty"`
 }
